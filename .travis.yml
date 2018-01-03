@@ -1,0 +1,22 @@
+language: c
+
+sudo: required
+services:
+  - docker
+
+env:
+  global:
+    - DOCKER_REPOSITORY=yleisradio/yle-nginx-clojure
+    - DOCKER_TAGS="$(./scripts/ci/docker_tags)"
+
+script:
+  - make
+  - make test
+
+deploy:
+  provider: script
+  skip_cleanup: true
+  script: ./scripts/ci/push_docker_images
+  on:
+    branch:
+      - master

@@ -1,0 +1,5 @@
+/.build_*
+/test/.build_*
+/.nginx-*.check
+/src
+/*.tar.gz

@@ -1,0 +1,33 @@
+server {
+    server_name 'yle-nginx-test';
+    listen 80;
+
+    root /usr/local/test-site;
+
+    access_log /var/log/nginx/access.log timed_combined;
+
+    location = /clojure {
+        handler_type 'clojure';
+        handler_code '
+            (fn[req]
+              {
+                :status 200,
+                :body "Lua FTW!"
+              })
+        ';
+    }
+
+    set $hello null;
+
+    location = /clojure-var {
+        rewrite_handler_type 'clojure';
+        rewrite_handler_code '
+            (do (use \'[nginx.clojure.core])
+	      (fn[req]
+	        (set-ngx-var! req "hello" "worm")
+                phrase-done))
+        ';
+
+        return 200 "Hello $hello";
+    }
+}

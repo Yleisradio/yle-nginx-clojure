@@ -1,0 +1,19 @@
+---
+version: '3'
+services:
+  nginx:
+    build:
+      context: .
+      dockerfile: Dockerfile_test
+    volumes:
+      - test-logs:/var/log/nginx
+  bats:
+    build:
+      context: .
+      dockerfile: Dockerfile_bats
+    depends_on:
+      - nginx
+    volumes:
+      - test-logs:/var/log/nginx/
+volumes:
+  test-logs:

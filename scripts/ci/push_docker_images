@@ -1,0 +1,21 @@
+#!/bin/bash
+
+set -eu -o pipefail
+
+dockerhub_login() {
+    echo "Logging in into Dockerhub"
+    docker login --username="$DOCKER_USER" --password-stdin <<< "$DOCKER_PASSWORD"
+    echo
+}
+
+dockerhub_push() {
+    local name
+
+    for name in $DOCKER_TAGS; do
+        echo "Pushing the image to Dockerhub: '$name'"
+        docker push "$name"
+    done
+}
+
+dockerhub_login
+dockerhub_push

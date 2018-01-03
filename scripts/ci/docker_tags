@@ -1,0 +1,27 @@
+#!/bin/bash
+
+set -eu -o pipefail
+
+if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then
+    echo "Skipping tags for pull requests" >&2
+    exit
+fi
+
+# Include version definitions
+# shellcheck disable=SC1091
+source ./VERSIONS
+
+# Verify the TRAVIS_BRANCH is set
+: "${TRAVIS_BRANCH}"
+
+# Replace non-word characters with undescore
+BRANCH="${TRAVIS_BRANCH//[^[:word]]/_}"
+
+if [ "$BRANCH" = "master" ]; then
+    echo -n "$DOCKER_REPOSITORY:$NGINX_VERSION-$NGINX_CLOJURE_VERSION-1.$TRAVIS_BUILD_NUMBER "
+    echo -n "$DOCKER_REPOSITORY:latest"
+else
+    echo -n "$DOCKER_REPOSITORY:$NGINX_VERSION-$NGINX_CLOJURE_VERSION-0.$TRAVIS_BUILD_NUMBER-$BRANCH "
+    echo -n "$DOCKER_REPOSITORY:$BRANCH"
+fi
+echo

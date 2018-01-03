@@ -1,0 +1,5 @@
+#!/bin/bash
+
+set -eu -o pipefail
+
+find /tests -name '*.bats' -type f -print0 | xargs -0 -n1 bats
