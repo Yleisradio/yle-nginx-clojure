@@ -10,8 +10,7 @@ env:
     - DOCKER_TAGS="$(./scripts/ci/docker_tags)"
 
 script:
-  - make
-  - make test
+  - make && make test
 
 deploy:
   provider: script
