@@ -18,7 +18,7 @@ RUN apt-get update && \
             zlib1g-dev
 
 # Add sources
-ADD src /build/
+COPY src /build/
 
 # Build nginx with nginx-clojure module
 RUN cd /build/nginx-${NGINX_VERSION} && \
@@ -46,19 +46,17 @@ RUN cd /build/nginx-${NGINX_VERSION} && \
     make install
 
 # Build and copy nginx-clojure uberjar
-ADD scripts/lein /build/
+COPY scripts/lein /build/
 RUN cd /build/nginx-clojure-${NGINX_CLOJURE_VERSION} && \
     LEIN_ROOT=1 /build/lein uberjar && \
     mkdir -p /usr/lib/nginx/jars && \
     cp target/nginx-clojure-${NGINX_CLOJURE_VERSION}-standalone.jar \
 	/usr/lib/nginx/jars/nginx-clojure.jar && \
-    cp $HOME/.m2/repository/org/clojure/clojure/1.5.1/clojure-1.5.1.jar \
-	/usr/lib/nginx/jars/ && \
     rm -rf $HOME/.m2 $HOME/.lein
 
 # Add config
-ADD conf/nginx.conf /etc/nginx/nginx.conf
-ADD conf/clojure.conf /etc/nginx/conf.d/clojure.conf
+COPY conf/nginx.conf /etc/nginx/nginx.conf
+COPY conf/clojure.conf /etc/nginx/conf.d/clojure.conf
 RUN mkdir -p \
           /etc/nginx/conf.d \
           /etc/nginx/sites-available \

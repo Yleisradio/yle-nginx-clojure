@@ -6,6 +6,6 @@ RUN apt-get update && \
     apt-get install -y bats curl && \
     rm -rf /var/lib/apt/lists/*
 
-ADD scripts/ /tests/
+COPY scripts/ /tests/
 
 CMD /tests/run_tests

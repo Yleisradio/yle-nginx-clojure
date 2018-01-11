@@ -13,7 +13,11 @@ clean:
 	-rm -rf .build_*
 
 test: .build_test .build_bats
-	$(DOCKER_COMPOSE) run --rm --name yle-nginx-bats-$(PID) bats
+	# Run the tests
+	$(DOCKER_COMPOSE) run --rm --name yle-nginx-bats-$(PID) bats || \
+	    { $(DOCKER_COMPOSE) logs nginx; exit 1; }
+
+	# Shut down everything
 	@# Unfortunately the `--rm` option above won't remove depended services,
 	@# i.e. nginx, so we have to stop it ourselves.
 	@# https://github.com/docker/compose/issues/2791
