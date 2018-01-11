@@ -52,8 +52,6 @@ RUN cd /build/nginx-clojure-${NGINX_CLOJURE_VERSION} && \
     mkdir -p /usr/lib/nginx/jars && \
     cp target/nginx-clojure-${NGINX_CLOJURE_VERSION}-standalone.jar \
 	/usr/lib/nginx/jars/nginx-clojure.jar && \
-    cp $HOME/.m2/repository/org/clojure/clojure/1.5.1/clojure-1.5.1.jar \
-	/usr/lib/nginx/jars/ && \
     rm -rf $HOME/.m2 $HOME/.lein
 
 # Add config

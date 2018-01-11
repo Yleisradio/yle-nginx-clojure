@@ -4,8 +4,6 @@ server {
 
     root /usr/local/test-site;
 
-    access_log /var/log/nginx/access.log timed_combined;
-
     location = /clojure {
         handler_type 'clojure';
         handler_code '
