@@ -1,6 +1,6 @@
 FROM yle-nginx-clojure
 
-ADD conf/test-site.html /usr/local/test-site/index.html
+COPY conf/test-site.html /usr/local/test-site/index.html
 
-ADD conf/test-site.nginx /etc/nginx/sites-available/yle-nginx-test
+COPY conf/test-site.nginx /etc/nginx/sites-available/yle-nginx-test
 RUN ln -s /etc/nginx/sites-available/yle-nginx-test /etc/nginx/sites-enabled/
