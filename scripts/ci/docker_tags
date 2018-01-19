@@ -15,7 +15,7 @@ source ./VERSIONS
 : "${TRAVIS_BRANCH}"
 
 # Replace non-word characters with undescore
-BRANCH="${TRAVIS_BRANCH//[^[:word]]/_}"
+BRANCH="${TRAVIS_BRANCH//[^[:word:]]/_}"
 
 if [ "$BRANCH" = "master" ]; then
     echo -n "$DOCKER_REPOSITORY:$NGINX_VERSION-$NGINX_CLOJURE_VERSION-1.$TRAVIS_BUILD_NUMBER "
