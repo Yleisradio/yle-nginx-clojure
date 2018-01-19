@@ -61,7 +61,8 @@ RUN mkdir -p \
           /etc/nginx/conf.d \
           /etc/nginx/sites-available \
           /etc/nginx/sites-enabled \
-          /var/lib/nginx
+          /var/lib/nginx && \
+    chown -R www-data /var/log/nginx
 
 # Clean up
 RUN apt-get purge -y \
