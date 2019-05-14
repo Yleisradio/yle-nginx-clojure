@@ -25,23 +25,23 @@ RUN cd /build/nginx-${NGINX_VERSION} && \
     ./configure \
         --add-module=/build/nginx-clojure-${NGINX_CLOJURE_VERSION}/src/c \
         --prefix=/usr/share/nginx \
-	--sbin-path=/usr/sbin/nginx \
-	--conf-path=/etc/nginx/nginx.conf \
-	--error-log-path=/var/log/nginx/error.log \
-	--http-client-body-temp-path=/var/lib/nginx/body \
-	--http-fastcgi-temp-path=/var/lib/nginx/fastcgi \
-	--http-log-path=/var/log/nginx/access.log \
-	--http-proxy-temp-path=/var/lib/nginx/proxy \
-	--http-scgi-temp-path=/var/lib/nginx/scgi \
-	--http-uwsgi-temp-path=/var/lib/nginx/uwsgi \
-	--lock-path=/var/lock/nginx.lock \
-	--pid-path=/run/nginx.pid \
-	--with-http_realip_module \
-	--with-http_stub_status_module \
-	--with-http_ssl_module \
-	--with-ipv6 \
-	--with-sha1=/usr/include/openssl \
-	--with-md5=/usr/include/openssl && \
+        --sbin-path=/usr/sbin/nginx \
+        --conf-path=/etc/nginx/nginx.conf \
+        --error-log-path=/var/log/nginx/error.log \
+        --http-client-body-temp-path=/var/lib/nginx/body \
+        --http-fastcgi-temp-path=/var/lib/nginx/fastcgi \
+        --http-log-path=/var/log/nginx/access.log \
+        --http-proxy-temp-path=/var/lib/nginx/proxy \
+        --http-scgi-temp-path=/var/lib/nginx/scgi \
+        --http-uwsgi-temp-path=/var/lib/nginx/uwsgi \
+        --lock-path=/var/lock/nginx.lock \
+        --pid-path=/run/nginx.pid \
+        --with-http_realip_module \
+        --with-http_stub_status_module \
+        --with-http_ssl_module \
+        --with-ipv6 \
+        --with-sha1=/usr/include/openssl \
+        --with-md5=/usr/include/openssl && \
     make && \
     make install
 
@@ -51,7 +51,7 @@ RUN cd /build/nginx-clojure-${NGINX_CLOJURE_VERSION} && \
     LEIN_ROOT=1 /build/lein uberjar && \
     mkdir -p /usr/lib/nginx/jars && \
     cp target/nginx-clojure-${NGINX_CLOJURE_VERSION}-standalone.jar \
-	/usr/lib/nginx/jars/nginx-clojure.jar && \
+        /usr/lib/nginx/jars/nginx-clojure.jar && \
     rm -rf $HOME/.m2 $HOME/.lein
 
 # Add config
