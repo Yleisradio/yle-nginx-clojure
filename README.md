@@ -13,7 +13,7 @@ Docker images built by Yle can be found in Docker Hub as [yleisradio/yle-nginx-c
 
 ## Building
 
-* Set `NGINX_VERSION` and `NGINX_CLOJURE_VERSION` variables in the `VARIABLES` file.
+* Set `NGINX_VERSION` and `NGINX_CLOJURE_VERSION` variables in the `VERSIONS` file.
 * Run `make shasums` to update SHA sums and add them to repository.
 * Run `make test` to build and test the `yle-nginx-clojure` image.
 
