@@ -7,7 +7,8 @@ ENV NGINX_VERSION $NGINX_VERSION
 ENV NGINX_CLOJURE_VERSION $NGINX_CLOJURE_VERSION
 
 # Install build dependencies
-RUN yum install -y \
+RUN yum update -y && \
+    yum install -y \
     gcc \
     make \
     openssl-devel \
@@ -64,7 +65,8 @@ FROM amazoncorretto:11
 ARG NGINX_CLOJURE_VERSION
 ENV NGINX_CLOJURE_VERSION ${NGINX_CLOJURE_VERSION}
 
-RUN yum install -y pcre shadow-utils && \
+RUN yum update -y && \
+  yum install -y pcre shadow-utils && \
   yum clean all && \
   rm -rf /var/cache/yum
 
