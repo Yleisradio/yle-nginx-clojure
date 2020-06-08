@@ -1,21 +1,17 @@
-FROM openjdk:8-jdk-alpine
+FROM amazoncorretto:11
 
 ARG NGINX_VERSION
 ARG NGINX_CLOJURE_VERSION
 
 ENV NGINX_VERSION $NGINX_VERSION
 ENV NGINX_CLOJURE_VERSION $NGINX_CLOJURE_VERSION
-ENV DEBIAN_FRONTEND noninteractive
 
-# Upgrade the OS and install build dependencies
-RUN apk update --no-cache && \
-    apk upgrade --no-cache && \
-    apk add --no-cache \
-        bash \
-        build-base \
-        pcre-dev \
-        openssl-dev \
-        zlib-dev
+# Install build dependencies
+RUN yum install -y \
+    gcc \
+    make \
+    openssl-devel \
+    pcre-devel
 
 # Add sources
 COPY src /build/
@@ -63,19 +59,19 @@ COPY conf/clojure.conf /etc/nginx/conf.d/clojure.conf
 # -------------------------------------------------------------------
 # Build the runtime container
 # -------------------------------------------------------------------
-FROM openjdk:8-jre-alpine
+FROM amazoncorretto:11
 
 ARG NGINX_CLOJURE_VERSION
 ENV NGINX_CLOJURE_VERSION ${NGINX_CLOJURE_VERSION}
 
-RUN apk update --no-cache && \
-    apk upgrade --no-cache && \
-    apk add --no-cache pcre
+RUN yum install -y pcre shadow-utils && \
+  yum clean all && \
+  rm -rf /var/cache/yum
 
 # ensure www-data user exists
 RUN set -x ; \
-  addgroup -g 82 -S www-data ; \
-  adduser -u 82 -D -S -G www-data www-data
+  groupadd -g 82 -r www-data ; \
+  adduser -u 82 -r -g www-data www-data
 
 RUN mkdir -p \
           /etc/nginx/conf.d \
@@ -98,8 +94,5 @@ COPY --from=0 /etc/nginx/conf.d/clojure.conf /etc/nginx/conf.d/clojure.conf
 COPY --from=0 /usr/lib/nginx/jars/nginx-clojure.jar /usr/lib/nginx/jars/nginx-clojure.jar
 
 COPY --from=0 /usr/share/nginx/ /usr/share/nginx/
-
-# I don't know if this is a bug or what, but libjvm.so could not be found from under server directory.
-RUN ln -s /usr/lib/jvm/java-1.8-openjdk/jre/lib/amd64/server/libjvm.so /usr/lib/jvm/java-1.8-openjdk/jre/lib/amd64/libjvm.so
 
 CMD /usr/sbin/nginx -g 'daemon off;'
