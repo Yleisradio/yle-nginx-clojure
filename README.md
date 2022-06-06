@@ -1,3 +1,7 @@
+# Deprecated
+
+Yle moved to pure NGINX with extra logic done with NJS. This version is no longer maintained.
+
 # Yle Nginx with Nginx-Clojure
 
 [![Build Status](https://travis-ci.org/Yleisradio/yle-nginx-clojure.svg?branch=master)](https://travis-ci.org/Yleisradio/yle-nginx-clojure)
